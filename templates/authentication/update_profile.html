@@ -1,12 +1,21 @@
-{% extends 'base.html' %}
+{% extends 'authentication/base.html' %}
 
 {% block title %}Login{% endblock %}
 
 {% block content %}
-
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Save">
-</form>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form method="post" class="form-group">
+                {% csrf_token %}
+                {{ form.username.label_tag }}
+                {{ form.username|add_class:"form-control" }}
+                {{ form.password.label_tag }}
+                {{ form.password|add_class:"form-control" }}
+                <br>
+                <input type="submit" class="btn btn-primary" value="Submit">
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

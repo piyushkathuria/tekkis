@@ -1,10 +1,27 @@
-{% extends 'base.html' %}
+{% extends 'authentication/base.html' %}
 
 {% block content %}
-    <h1>{% if request.resolver_match.url_name == 'todo_create' %}Create{% else %}Update{% endif %} Todo</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">{% if request.resolver_match.url_name == 'todo_create' %}Create{% else %}Save{% endif %}</button>
-    </form>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <h1>{% if request.resolver_match.url_name == 'todo_create' %}Create{% else %}Update{% endif %} Todo</h1>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-floating mb-3">
+                        {{ form.title }}
+                        <label for="{{ form.title.id_for_label }}">Title</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{ form.description }}
+                        <label for="{{ form.description.id_for_label }}">Description</label>
+                    </div>
+                    <div class="form-check mb-3">
+                        {{ form.completed }}
+                        <label class="form-check-label" for="{{ form.completed.id_for_label }}">Completed</label>
+                    </div>
+                    <button class="btn btn-primary" type="submit">{% if request.resolver_match.url_name == 'todo_create' %}Create{% else %}Save{% endif %}</button>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}

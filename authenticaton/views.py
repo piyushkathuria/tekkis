@@ -26,11 +26,12 @@ class SignUpView(CreateView):
 
 class LoginView(View):
     template_name = "authentication/login.html"
+    success_url =reverse_lazy('todo/create')
     
     def get(self, request):
         # Redirect authenticated users to the user list view
         if request.user.is_authenticated:
-            return redirect('user_list')
+            return redirect('userslist')
         
         return render(request, self.template_name)
     
@@ -48,7 +49,7 @@ class LoginView(View):
         if user is not None and user.is_active:
             # Login user and redirect to the todo list view
             login(request, user)
-            return redirect('todos/todo_list')
+            return redirect('success_url')
         
         return render(request, self.template_name, {'error': 'Invalid username or password.'})
 

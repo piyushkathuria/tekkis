@@ -1,21 +1,28 @@
-{% extends 'base.html' %}
+{% extends 'authentication/base.html' %}
 
-{% block title %}Login{% endblock %}
+{% block title %}User List{% endblock %}
 
 {% block content %}
-<ul>
-	<!-- Iterate over object_list -->
-	{% for object in object_list %}
-	<!-- Display Objects -->
-    
-	<li>{{ object.id }}</li>
-	<li>{{ object.username }}</li>
-	<li>{{ object.email }}</li>
-
-	<hr/>
-	<!-- If object_list is empty -->
-	{% empty %}
-	<li>No objects yet.</li>
-	{% endfor %}
-</ul>
+<div class="card mt-3">
+  <div class="card-header">
+    User List
+  </div>
+  <div class="card-body">
+    <ul class="list-group">
+      <!-- Iterate over object_list -->
+      {% for object in object_list %}
+      <li class="list-group-item">
+        <h5 class="card-title">User {{ object.id }}</h5>
+        <p class="card-text">
+          <strong>Username:</strong> {{ object.username }}<br>
+          <strong>Email:</strong> {{ object.email }}
+        </p>
+      </li>
+      {% empty %}
+      <!-- If object_list is empty -->
+      <li class="list-group-item">No users yet.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
 {% endblock %}
