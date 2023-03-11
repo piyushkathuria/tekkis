@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% if request.resolver_match.url_name == 'todo_create' %}Create{% else %}Update{% endif %} Todo</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">{% if request.resolver_match.url_name == 'todo_create' %}Create{% else %}Save{% endif %}</button>
+    </form>
+{% endblock %}

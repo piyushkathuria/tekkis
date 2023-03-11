@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Todo List</h1>
+    <ul>
+        {% for todo in todos %}
+            <li>
+                <a href="{% url 'todo_update' todo.pk %}">{{ todo.title }}</a> - {{ todo.description }}
+                <form action="{% url 'todo_delete' todo.pk %}" method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <input type="submit" value="Delete">
+                </form>
+            </li>
+        {% empty %}
+            <li>No todos yet.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'todo_create' %}">Create a new todo</a>
+{% endblock %}
