@@ -1,19 +1,30 @@
-{% extends 'base.html' %}
+{% extends 'authentication/base.html' %}
+
+{% block title %}Todo List{% endblock %}
 
 {% block content %}
-    <h1>Todo List</h1>
-    <ul>
-        {% for todo in todos %}
-            <li>
-                <a href="{% url 'todo_update' todo.pk %}">{{ todo.title }}</a> - {{ todo.description }}
-                <form action="{% url 'todo_delete' todo.pk %}" method="POST" style="display: inline;">
-                    {% csrf_token %}
-                    <input type="submit" value="Delete">
-                </form>
-            </li>
-        {% empty %}
-            <li>No todos yet.</li>
-        {% endfor %}
+<div class="card mt-3">
+  <div class="card-header">
+    Todo List
+  </div>
+  <div class="card-body">
+    <h1 class="card-title">Todo List</h1>
+    <ul class="list-group">
+      {% for todo in todos %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <a href="{% url 'todo_update' todo.pk %}" class="text-decoration-none">{{ todo.title }}</a> - {{ todo.description }}
+        </div>
+        <form action="{% url 'todo_delete' todo.pk %}" method="POST" style="display: inline;">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+        </form>
+      </li>
+      {% empty %}
+      <li class="list-group-item">No todos yet.</li>
+      {% endfor %}
     </ul>
-    <a href="{% url 'todo_create' %}">Create a new todo</a>
+    <a href="{% url 'todo_create' %}" class="btn btn-primary mt-3">Create a new todo</a>
+  </div>
+</div>
 {% endblock %}
