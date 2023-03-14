@@ -19,21 +19,31 @@ class SignUpView(CreateView):
     success_url = reverse_lazy('login')
     
     def form_valid(self, form):
+        # Check if username is already taken
+        if User.objects.filter(username=form.cleaned_data['username']).exists():
+            form.add_error('username', 'Username is already taken.')
+            return super().form_invalid(form)
+
+        # Check if email is already taken
+        if User.objects.filter(email=form.cleaned_data['email']).exists():
+            form.add_error('email', 'Email is already taken.')
+            return super().form_invalid(form)
+
+        # Check password length
+        password = form.cleaned_data['password']
+        if len(password) < 8:
+            form.add_error('password', 'Password must be at least 8 characters long.')
+            return super().form_invalid(form)
+
         # Hash the user's password before saving to the database
-        form.instance.set_password(form.cleaned_data['password'])
+        form.instance.set_password(password)
         return super().form_valid(form)
 
 
 class LoginView(View):
     template_name = "authentication/login.html"
-    success_url =reverse_lazy('todo/create')
+    success_url = '/todo/create/'
     
-    def get(self, request):
-        # Redirect authenticated users to the user list view
-        if request.user.is_authenticated:
-            return redirect('userslist')
-        
-        return render(request, self.template_name)
     
     def post(self, request):
         username = request.POST.get('username')
@@ -49,9 +59,16 @@ class LoginView(View):
         if user is not None and user.is_active:
             # Login user and redirect to the todo list view
             login(request, user)
-            return redirect('success_url')
+            return redirect(self.success_url)
         
         return render(request, self.template_name, {'error': 'Invalid username or password.'})
+
+    def get(self, request):
+        # Redirect authenticated users to the user list view
+        if request.user.is_authenticated:
+            return redirect('userslist')
+        
+        return render(request, self.template_name)
 
 
 class UserList(ListView):
