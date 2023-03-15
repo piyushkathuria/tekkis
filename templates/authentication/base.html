@@ -1,4 +1,6 @@
 {% load static %}
+<a href="{% url 'login' %}"></a>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,16 +20,24 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                    </li>
+                        {% if request.resolver_match.url_name != 'login' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                            </li>
+                        {% endif %}
                     {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'signup' %}">Signup</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Login</a>
-                    </li>
+                        {% if request.resolver_match.url_name == 'login' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'login' %}">Login</a>
+                            </li>
+                        {% endif %}
                     {% endif %}
                 </ul>
             </div>

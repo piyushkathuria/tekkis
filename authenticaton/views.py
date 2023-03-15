@@ -1,10 +1,9 @@
 from django.shortcuts import render,redirect
-from django.views.generic.edit import CreateView,UpdateView,DeleteView
+from django.views.generic.edit import CreateView,UpdateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic import View
 from django.contrib.auth.models import User
-from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth import authenticate,login,logout
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
@@ -66,15 +65,15 @@ class LoginView(View):
     def get(self, request):
         # Redirect authenticated users to the user list view
         if request.user.is_authenticated:
-            return redirect('userslist')
+            return render(request,'authentication/login.html')
         
         return render(request, self.template_name)
 
 
-class UserList(ListView):
-    login_required = True
-    template_name="authentication/profile_list.html"
-    model = User
+# class UserList(ListView):
+#     login_required = True
+#     template_name="authentication/profile_list.html"
+#     model = User
 
 
 

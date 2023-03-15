@@ -9,13 +9,10 @@ class TodoListView(LoginRequiredMixin, ListView):
     model = Todo
     template_name = 'todos/todo_list.html'
     context_object_name = 'todos'
-
+  
     def get_queryset(self):
         # Only return the Todo objects that belong to the current user
         return Todo.objects.filter(user=self.request.user)
-
-
-
 
 
 class TodoCreateView(LoginRequiredMixin, CreateView):
