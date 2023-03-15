@@ -8,8 +8,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 
-
-
+ 
 # Create your views here.
 class SignUpView(CreateView):
     template_name = "authentication/signup.html"
@@ -42,8 +41,6 @@ class SignUpView(CreateView):
 class LoginView(View):
     template_name = "authentication/login.html"
     success_url = '/todo/create/'
-    
-    
     def post(self, request):
         username = request.POST.get('username')
         password = request.POST.get('password')

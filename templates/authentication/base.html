@@ -1,6 +1,4 @@
 {% load static %}
-<a href="{% url 'login' %}"></a>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,9 +32,11 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'signup' %}">Signup</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'login' %}">Login</a>
-                            </li>
+                            {% if request.resolver_match.url_name != 'todo_create' %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                                </li>
+                            {% endif %}
                         {% endif %}
                     {% endif %}
                 </ul>
