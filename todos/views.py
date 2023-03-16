@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from .models import Todo
 from .forms import TodoForm
 
-
+ 
 class TodoListView(LoginRequiredMixin, ListView):
     model = Todo
     template_name = 'todos/todo_list.html'
@@ -34,6 +34,7 @@ class TodoCreateView(LoginRequiredMixin, CreateView):
     form_class = TodoForm
     template_name = 'todos/todo_form.html'
     success_url = reverse_lazy('todo_list')
+    permission_denied_message = 'You need to log in first.'
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -51,6 +52,8 @@ class TodoUpdateView(LoginRequiredMixin, UpdateView):
     form_class = TodoForm
     template_name = 'todos/todo_form.html'
     success_url = reverse_lazy('todo_list')
+    permission_denied_message = 'You need to log in first.'
+
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             messages.warning(request, self.permission_denied_message)
@@ -66,6 +69,7 @@ class TodoDeleteView(LoginRequiredMixin, DeleteView):
     model = Todo
     template_name = 'todos/todo_confirm_delete.html'
     success_url = reverse_lazy('todo_list')
+    permission_denied_message = 'You need to log in first.'
     
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
